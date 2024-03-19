@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'courses.apps.CoursesConfig',
     'ckeditor',
-    'ckeditor_uploader'
+    'ckeditor_uploader',
+    'rest_framework',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -124,4 +126,18 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_ROOT = '%s/courses/static/' % BASE_DIR
 
 CKEDITOR_UPLOAD_PATH = "images/courses/"
-AUTH_USER_MODEL = "courses.User"
+AUTH_USER_MODEL = 'courses.User'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS':
+        'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 5
+}
+
+import cloudinary
+
+cloudinary.config(
+    cloud_name="dpacbtjva",
+    api_key="271295249232522",
+    api_secret="E5p9fqKGnvRRg-gtU8HxUpynWvI"
+)

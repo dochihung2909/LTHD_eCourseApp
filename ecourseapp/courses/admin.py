@@ -3,7 +3,7 @@ from django.utils.safestring import mark_safe
 from django import forms
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from courses.models import Category, Course
+from courses.models import Category, Course, Lesson, Like, Tag
 
 
 class CourseForm(forms.ModelForm):
@@ -41,3 +41,6 @@ class MyCourseAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Category, MyCategoryAdmin)
 admin.site.register(Course, MyCourseAdmin)
+admin.site.register(Lesson)
+admin.site.register(Tag)
+admin.site.register(Like)

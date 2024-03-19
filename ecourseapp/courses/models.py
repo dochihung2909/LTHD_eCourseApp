@@ -1,10 +1,11 @@
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import AbstractUser
+from cloudinary.models import CloudinaryField
 
 
 class User(AbstractUser):
-    pass
+    avatar = CloudinaryField(null=True)
 
 
 class BaseModel(models.Model):
@@ -38,21 +39,22 @@ class ItemBase(BaseModel):
         abstract = True
 
 
-class Lesson(ItemBase):
-    subject = models.CharField(max_length=255)
-    content = RichTextField()
-    image = models.ImageField(upload_to='lessons/%Y/%m/')
-
-
 class Course(ItemBase):
     subject = models.CharField(max_length=50)
     description = RichTextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    image = models.ImageField()
+    image = CloudinaryField(null=True)
     active = models.BooleanField(default=True)
 
     def __str__(self):
         return self.subject
+
+
+class Lesson(ItemBase):
+    subject = models.CharField(max_length=255)
+    content = RichTextField()
+    image = CloudinaryField(null=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
 
 class Interaction(BaseModel):
@@ -66,4 +68,8 @@ class Interaction(BaseModel):
 class Like(Interaction):
 
     class Meta:
-        unique_together = ['course', 'lesson']
+        unique_together = ('user', 'lesson')
+
+
+class Comment(Interaction):
+    content = models.CharField(max_length=255)
